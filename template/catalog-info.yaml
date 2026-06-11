@@ -1,0 +1,12 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Component
+metadata:
+  name: ${{values.app_name}}
+  description: A component created by the Mulesoft template
+  annotations:
+  github.com/project-slug: MeeruChandra/${{values.app_name}}
+  
+spec: 
+  type: service
+  lifecycle: experimental
+  owner: development

@@ -1,0 +1,5 @@
+Hi, this is a test file for the Mulesoft flask template. It is used to verify that the template is working correctly and can be used to create a new Mulesoft flask application.
+
+
+THe app's name is ${{values.app_name}}
+THe app's name is ${{values.app_env}}

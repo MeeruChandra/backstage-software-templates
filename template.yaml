@@ -46,7 +46,7 @@ steps:
     name: Fetch Base
     action: fetch:template
     input:
-      url: ./template
+      url: ./mulesofttemplate
     values:
       name: '{{parameters.name}}'
       

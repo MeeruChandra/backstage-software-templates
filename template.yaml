@@ -6,7 +6,7 @@ metadata:
   title: Test action template
   description: scaffolder vibeta2 
   annotations:
-    backstage.io/time-saved:PAT4H
+    backstage.io/time-saved: PT4H
 spec:
   owner: user:guest
   type: service

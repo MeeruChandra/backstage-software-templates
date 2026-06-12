@@ -8,10 +8,10 @@ metadata:
   annotations:
     backstage.io/time-saved:PAT4H
 spec:
-  owner:backstage/techdocs-core
-  type:service
+  owner: user:guest
+  type: service
 
-  parameters:
+  parameters: 
     - title: Fill in some steps
       required:
         - name
@@ -34,7 +34,7 @@ spec:
             - dev
             - prod
 
-    - title: CHoose a location
+    - title: Choose a location
       required:
         - repoUrl
       properties:

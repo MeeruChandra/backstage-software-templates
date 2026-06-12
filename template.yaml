@@ -64,7 +64,7 @@ steps:
       repoUrl: ${{ parameters.repoUrl }}
   
   - id: register
-    name: register
+    name: Register
     action: catalog:register
     input:
       repoContentsUrl: {{steps['publish'].output.repoContentsUrl  }}

@@ -1,12 +1,8 @@
-apiVersion: backstage.io/v1alpha1 # Note: Components use v1alpha1, not scaffolder version
+apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  # Nunjucks syntax works perfectly once processed by fetch:template
-  name: mulesoft-app
-  description: A component created by the Mulesoft template
-  annotations:
-    github.com/project-slug: MeeruChandra/mulesoft-app
-spec: 
+  name: ${{ values.name | dump }}
+spec:
   type: service
-  lifecycle: experimental
   owner: user:guest
+  lifecycle: experimental

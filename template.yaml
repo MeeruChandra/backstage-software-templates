@@ -27,17 +27,42 @@ spec:
       properties:
         info:
           type: "null"
-          description: | ...
-        migrateApp: ...
-        gitlabProjectId: ...
-        createPipeline: ...
+          description: | 
+            This template will create a new repository in GitLab and set up a CI pipeline. 
+            If you want to migrate an existing repository, please select the 'Migrate an Existing Repository' option below and provide the URL of the repository you want to migrate.
+        migrateApp: 
+          title: Migrate an Existing Repository
+          type: boolean
+          description: Check this box if you want to migrate an existing repository instead of creating a new one. If checked, you will need to provide the URL of the repository you want to migrate in the 'Source Code Repository URL' field below.
+          default: false
+          ui:field: ConditionalCheckboxWithModalField
+          ui.options:
+            visibilityExpression: "{{ parameters.isLegacyRepo and not parameters.createPipeline}}"
+            modalTitle: Migrate an Existing Repository
+            modelContent: |
+              ## Migrate an Existing Repository
+              This option allows you to migrate an existing repository to GitLab and set up a CI pipeline for it. 
+              If you select this option, you will need to provide the URL of the repository you want to migrate in the 'Source Code Repository URL' field below. 
+              The template will then mirror the repository in GitLab and set up a CI pipeline for it.
+            modalConfirmText: "Yes, lets go|"
+            modelCancelText: "No, I want to create a new repository"
+            requireModalConfirmation: true
+            showModalOnCheck: true
+        gitlabProjectId:
+          ui.widget: hidden
+          type: string          
+        createPipeline: 
+          ui.widget: hidden
+          type: boolean
+          default: true
+          
         appOwner:
           ui:widget: hidden
           type: string
         app:
           title: App Name
           type: string
-          pattern: "^[a-zA-Z0-9_\\-]+$+"
+          pattern: "^[a-zA-Z0-9_]+$+"
           description: This name will be used as the GItLab repository Name
           ui:Field: ConditionalTextField
           ui:options:
@@ -59,6 +84,14 @@ spec:
           ui.Field: ConditionalTextField
           ui.options:
             visibilityExpression: "{{ parameters.createPipeline}}" 
+        sourceCodeRepoUrl:
+          title: Source Code Repository URL
+          type: string          
+          description: The URL of the source code repository to mirror
+          ui:Field: ConditionalTextField
+          ui:options:
+            enabledDependsOn: createPipeline
+            visibilityExpression: "{{ parameters.isLegacyRepo}}"
           
     - title: Choose a location
       required:

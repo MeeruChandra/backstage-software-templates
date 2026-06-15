@@ -60,6 +60,14 @@ spec:
           ui:widget: hidden
           type: string
         app:
+          title: ServiceNow App
+          type: string
+          description: The name of the application this repository belongs to
+          ui:field: ConditionalTextField
+          ui:options:
+            enabledDependsOn: createPipeline
+            requireCloudAccount: hidden
+        appName:
           title: App Name
           type: string
           pattern: "^[a-zA-Z0-9_-]+$"
@@ -82,13 +90,21 @@ spec:
             - Generic
           default: generic
         isLegacyRepo:
-          title: Is Legacy Repository
+          title: Mirror an existing Application
           type: boolean
-          description: Check if this is a legacy repository
+          description: Select this option if you want to mirror an existing application instead of creating a new one. If selected, you will need to provide the URL of the source code repository you want to mirror in the 'Source Code Repository URL' field below.
           default: false
           ui:field: ConditionalTextField
           ui:options:
             visibilityExpression: "{{ parameters.createPipeline}}"
+        allowGitHistory:
+          title: Allow importing git history
+          type: boolean
+          default: false
+          description: Select if you need to import git history
+          ui.filed: ConditionalTextField
+          ui.options: 
+            visibilityExpression: "{{ not paramters.isLegacyRepo }}"
         sourceCodeRepoUrl:
           title: Source Code Repository URL
           type: string          

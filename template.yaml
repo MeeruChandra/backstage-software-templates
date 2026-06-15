@@ -6,98 +6,97 @@ metadata:
   description: |
     Create a fresh code repository
     - Mirrors your repositories
-    - create a CIC pipeline 
+    - create a CI/CD pipeline
     - For more info, view [User Guide](https://helloworld.com)
-tags:
-  - gitlab
+  tags:
+    - gitlab
 spec:
   owner: user:guest
   type: TruPipeline
-
+  
   parameters:
     - title: Create a Build Pipeline
       required:
         - app
         - appName
         - sourceCodeRepoUrl
-      errorMessage: 
+      errorMessage:
         properties:
           appName: "Must be alphanumeric, '_', or '-'"
           sourceCodeRepoUrl: "Must be a valid URL"
       properties:
         info:
           type: "null"
-          description: | 
-            This template will create a new repository in GitLab and set up a CI pipeline. 
+          description: |
+            This template will create a new repository in GitLab and set up a CI pipeline.
             If you want to migrate an existing repository, please select the 'Migrate an Existing Repository' option below and provide the URL of the repository you want to migrate.
-        migrateApp: 
+        migrateApp:
           title: Migrate an Existing Repository
           type: boolean
           description: Check this box if you want to migrate an existing repository instead of creating a new one. If checked, you will need to provide the URL of the repository you want to migrate in the 'Source Code Repository URL' field below.
           default: false
           ui:field: ConditionalCheckboxWithModalField
-          ui.options:
+          ui:options:
             visibilityExpression: "{{ parameters.isLegacyRepo and not parameters.createPipeline}}"
-            modalTitle: Migrate an Existing Repository
-            modelContent: |
+            modalTitle: "Migrate an Existing Repository"
+            modalContent: |
               ## Migrate an Existing Repository
-              This option allows you to migrate an existing repository to GitLab and set up a CI pipeline for it. 
-              If you select this option, you will need to provide the URL of the repository you want to migrate in the 'Source Code Repository URL' field below. 
+              This option allows you to migrate an existing repository to GitLab and set up a CI pipeline for it.
+              If you select this option, you will need to provide the URL of the repository you want to migrate in the 'Source Code Repository URL' field below.
               The template will then mirror the repository in GitLab and set up a CI pipeline for it.
-            modalConfirmText: "Yes, lets go|"
-            modelCancelText: "No, I want to create a new repository"
+            modalConfirmText: "Yes, let's go"
+            modalCancelText: "No, I want to create a new repository"
             requireModalConfirmation: true
             showModalOnCheck: true
         gitlabProjectId:
-          ui.widget: hidden
+          ui:widget: hidden
           type: string          
-        createPipeline: 
-          ui.widget: hidden
+        createPipeline:
+          ui:widget: hidden
           type: boolean
           default: true
-
+  
         appOwner:
           ui:widget: hidden
           type: string
         app:
           title: App Name
           type: string
-          pattern: "^[a-zA-Z0-9_]+$+"
-          description: This name will be used as the GItLab repository Name
-          ui:Field: ConditionalTextField
+          pattern: "^[a-zA-Z0-9_-]+$"
+          description: This name will be used as the GitLab repository Name
+          ui:field: ConditionalTextField
           ui:options:
             enabledDependsOn: createPipeline
-        Platform:
+        platform:
           title: Platform
           type: string
-          enum: 
+          enum:
             - dotnet
             - java
             - nodejs
             - generic
-          ui.enumNames:
+          ui:enumNames:
             - .Net Core
             - Java
             - NodeJS
-            - generic
+            - Generic
           default: generic
         isLegacyRepo:
           title: Is Legacy Repository
           type: boolean
           description: Check if this is a legacy repository
           default: false
-          ui.Field: ConditionalTextField
-          ui.options:
-            visibilityExpression: "{{ parameters.createPipeline}}" 
+          ui:field: ConditionalTextField
+          ui:options:
+            visibilityExpression: "{{ parameters.createPipeline}}"
         sourceCodeRepoUrl:
           title: Source Code Repository URL
           type: string          
           description: The URL of the source code repository to mirror
-          ui:Field: ConditionalTextField
+          ui:field: ConditionalTextField
           ui:options:
             enabledDependsOn: createPipeline
             visibilityExpression: "{{ parameters.isLegacyRepo}}"
-          
     - title: Choose a location
       required:
         - repoUrl
@@ -109,7 +108,7 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
-
+  
   steps:
     - id: fetch-base
       name: Fetch Base
@@ -118,7 +117,7 @@ spec:
         url: ./mulesofttemplate
         values:
           name: ${{ parameters.name }}
-
+  
     - id: publish
       name: Publish
       action: publish:github
@@ -126,14 +125,14 @@ spec:
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
         defaultBranch: 'main'
-
+  
     - id: register
       name: Register
       action: catalog:register
       input:
-          repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
-          catalogInfoPath: '/catalog-info.yaml'
-          
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+        
     - id: notify
       name: Notify
       action: notification:send
@@ -144,7 +143,7 @@ spec:
         title: 'Template executed'
         info: 'Your template has been executed'
         severity: 'normal'
-
+  
   output:
     links:
       - title: Repository

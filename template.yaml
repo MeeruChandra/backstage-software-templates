@@ -55,7 +55,7 @@ spec:
           ui.widget: hidden
           type: boolean
           default: true
-          
+
         appOwner:
           ui:widget: hidden
           type: string
@@ -70,11 +70,16 @@ spec:
         Platform:
           title: Platform
           type: string
-          enum: ...
+          enum: 
+            - dotnet
+            - java
+            - nodejs
+            - generic
           ui.enumNames:
             - .Net Core
             - Java
             - NodeJS
+            - generic
           default: generic
         isLegacyRepo:
           title: Is Legacy Repository

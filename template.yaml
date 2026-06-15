@@ -1,25 +1,65 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: test-template
-  title: Test Template
-  description: An example template for the scaffolder that creates a simple Node.js service
+  name: devsearch-cicd
+  title: GitLab Saas (LINX)
+  description: |
+    Create a fresh code repository
+    - Mirrors your repositories
+    - create a CIC pipeline 
+    - For more info, view [User Guide](https://helloworld.com)
+tags:
+  - gitlab
 spec:
   owner: user:guest
-  type: service
+  type: TruPipeline
 
   parameters:
-    - title: Fill in some steps
+    - title: Create a Build Pipeline
       required:
-        - name
+        - app
+        - appName
+        - sourceCodeRepoUrl
+      errorMessage: 
+        properties:
+          appName: "Must be alphanumeric, '_', or '-'"
+          sourceCodeRepoUrl: "Must be a valid URL"
       properties:
-        name:
-          title: Name
+        info:
+          type: "null"
+          description: | ...
+        migrateApp: ...
+        gitlabProjectId: ...
+        createPipeline: ...
+        appOwner:
+          ui:widget: hidden
           type: string
-          description: Unique name of the component
-          ui:autofocus: true
+        app:
+          title: App Name
+          type: string
+          pattern: "^[a-zA-Z0-9_\\-]+$+"
+          description: This name will be used as the GItLab repository Name
+          ui:Field: ConditionalTextField
           ui:options:
-            rows: 5
+            enabledDependsOn: createPipeline
+        Platform:
+          title: Platform
+          type: string
+          enum: ...
+          ui.enumNames:
+            - .Net Core
+            - Java
+            - NodeJS
+          default: generic
+        isLegacyRepo:
+          title: Is Legacy Repository
+          type: boolean
+          description: Check if this is a legacy repository
+          default: false
+          ui.Field: ConditionalTextField
+          ui.options:
+            visibilityExpression: "{{ parameters.createPipeline}}" 
+          
     - title: Choose a location
       required:
         - repoUrl

@@ -50,11 +50,11 @@ spec:
         defaultBranch: 'main'
 
     - id: register
-      name: Register
-      action: catalog:register
-      input:
-        # Fixed: Changed from repoContentsUrl to the correct catalogInfoUrl structure
-        catalogInfoUrl: ${{ steps['publish'].output.remoteUrl }}/blob/main/catalog-info.yaml
+        name: Register
+        action: catalog:register
+        input:
+          repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+          catalogInfoPath: '/catalog-info.yaml'
 
     - id: notify
       name: Notify

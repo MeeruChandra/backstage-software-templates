@@ -31,7 +31,7 @@ spec:
             ### Requet access to GitLab SAAS
             ### Add SV-MAGLEV-DEV as maintainer
         migrateApp:
-          title: Migrate app to GitLab SaaS
+          title: Migrate app to GitLab SaaS {{parameters.createPipeliness}}
           type: boolean
           description: if selected. the existing on-prem repo will be copied to GitLab Saas and archived
           default: false
@@ -87,16 +87,17 @@ spec:
         isLegacyRepo:
           title: Mirror an existing Application
           type: boolean
-          description: Select this option if you want to mirror an existing application instead of creating a new one. If selected, you will need to provide the URL of the source code repository you want to mirror in the 'Source Code Repository URL' field below.
+          description: Select to move to legacy repo to Gitlab cloud
           default: false
           ui:field: ConditionalTextField
           ui:options:
             visibilityExpression: "{{ parameters.createPipeline}}"
         allowGitHistory:
+
           title: Allow importing git history
           type: boolean
           default: false
-          description: Select if you need to import git history
+          description: Select if you need to import git history from previous repository
           ui.filed: ConditionalTextField
           ui.options: 
             visibilityExpression: "{{ not paramters.isLegacyRepo }}"

@@ -56,6 +56,7 @@ spec:
           type: string
         app:
           title: ServiceNow App   
+          type: string
           ui:field: AppPicker
           ui:options:
             enabledDependsOn: createPipeline

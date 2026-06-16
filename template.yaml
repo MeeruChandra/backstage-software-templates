@@ -58,6 +58,7 @@ spec:
           title: ServiceNow App   
           type: string
           ui:field: AppPicker
+          default: "add your application name"
           ui:options:
             enabledDependsOn: createPipeline
             requireCloudAccount: hidden

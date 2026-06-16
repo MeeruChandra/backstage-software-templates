@@ -4,7 +4,7 @@ metadata:
   name: devsearch-cicd
   title: GitLab Saas (LINX)
   description: |
-    Create a fresh code repository
+    Create a fresh code repository Updated
     - Mirrors your repositories
     - create a CI/CD pipeline
     - For more info, view [User Guide](https://helloworld.com)
@@ -56,6 +56,7 @@ spec:
           type: string
         app:
           title: ServiceNow App   
+          type: string
           ui:field: AppPicker
           ui:options:
             enabledDependsOn: createPipeline

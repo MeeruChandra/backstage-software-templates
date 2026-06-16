@@ -28,22 +28,18 @@ spec:
         info:
           type: "null"
           description: |
-            This template will create a new repository in GitLab and set up a CI pipeline.
-            If you want to migrate an existing repository, please select the 'Migrate an Existing Repository' option below and provide the URL of the repository you want to migrate.
+            ### Requet access to GitLab SAAS
+            ### Add SV-MAGLEV-DEV as maintainer
         migrateApp:
-          title: Migrate an Existing Repository
+          title: Migrate app to GitLab SaaS
           type: boolean
-          description: Check this box if you want to migrate an existing repository instead of creating a new one. If checked, you will need to provide the URL of the repository you want to migrate in the 'Source Code Repository URL' field below.
+          description: if selected. the existing on-prem repo will be copied to GitLab Saas and archived
           default: false
           ui:field: ConditionalCheckboxWithModalField
           ui:options:
-            visibilityExpression: "{{ parameters.isLegacyRepo and not parameters.createPipeline}}"
-            modalTitle: "Migrate an Existing Repository"
-            modalContent: |
-              ## Migrate an Existing Repository
-              This option allows you to migrate an existing repository to GitLab and set up a CI pipeline for it.
-              If you select this option, you will need to provide the URL of the repository you want to migrate in the 'Source Code Repository URL' field below.
-              The template will then mirror the repository in GitLab and set up a CI pipeline for it.
+            visibilityExpression: "{{ parameters.isLegacyRepo and not parameters.createPipeline and not parameters.isAppMigrated}}"
+            modalTitle: "Migrate App to GitLab SaaS?"
+            modalContent: "Are you sure you want to migrate to GitLab Saas?"
             modalConfirmText: "Yes, let's go"
             modalCancelText: "No, I want to create a new repository"
             requireModalConfirmation: true
@@ -54,8 +50,7 @@ spec:
         createPipeline:
           ui:widget: hidden
           type: boolean
-          default: true
-  
+          default: true  
         appOwner:
           ui:widget: hidden
           type: string

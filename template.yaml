@@ -31,7 +31,7 @@ spec:
             ### Requet access to GitLab SAAS
             ### Add SV-MAGLEV-DEV as maintainer
         migrateApp:
-          title: Migrate app to GitLab SaaS {{parameters.createPipeline}}
+          title: Migrate app to GitLab SaaS
           type: boolean
           description: if selected. the existing on-prem repo will be copied to GitLab Saas and archived
           default: false
